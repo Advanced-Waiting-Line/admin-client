@@ -1,0 +1,110 @@
+@charset "UTF-8";
+
+@font-face {
+  font-family: 'Inter-Light';
+  src: url('./fonts/Inter-Light-BETA.woff2') format('woff2'),
+      url('./fonts/Inter-Light-BETA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter-Regular';
+  src: url('./fonts/Inter-Regular.woff2') format('woff2'),
+      url('./fonts/Inter-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter-Medium';
+  src: url('./fonts/Inter-Medium.woff2') format('woff2'),
+      url('./fonts/Inter-Medium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Opensans-light';
+  src: url('./fonts/Opensans-light.woff2') format('woff2'),
+      url('./fonts/Opensans-light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Opensans-regular';
+  src: url('./fonts/Opensans-regular.woff2') format('woff2'),
+      url('./fonts/Opensans-regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
+@font-face {
+  font-family: 'pct';
+  src: url('./fonts/pct.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+  padding: 0 17px;
+}
+
+input {
+  background-color: transparent;
+  border: .5px solid #D1D1D1;
+  border-radius: 5px;
+  height: 45px;
+  width: 100%;
+  margin: 13px 0;
+  padding: 13px;
+}
+
+input::placeholder {
+  font-size: 15px;
+  color: rgb(100, 100, 100);
+  letter-spacing: .3px;
+  font-family: 'Inter-Regular';
+}
+
+button {
+  width: 130px;
+  height: 45px;
+  border-radius: 5px;
+  border: none;
+  font-family: 'Inter-Medium';
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+button:hover {
+  cursor: pointer;
+}
+button:active {
+  color: inherit;
+}
+.btn {
+  color: white;
+  cursor: pointer;
+}
+.btn-blue {
+  background-color: #515FE2;
+}
+.btn-blue:hover {
+  background-color: rgb(69, 83, 207);
+}
+.btn-blue:active {
+  background-color: rgb(88, 102, 235);
+}
+.btn-max {
+  width: 100%;
+}
+.flex-spacer {
+  flex-grow: 1;
+}
