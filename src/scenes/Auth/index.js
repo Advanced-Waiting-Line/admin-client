@@ -5,7 +5,7 @@ import Dashboard from './Dashboard';
 import ProblemList from './ProblemList';
 
 export default _ => {
-  const [activeMenu, setActiveMenu] = useState('Dashboard');
+  const [activeMenu, setActiveMenu] = useState('Problem List');
   const [dropdown, setDropdown] = useState(false);
 
   const menus = [
