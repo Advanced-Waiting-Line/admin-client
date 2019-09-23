@@ -1,7 +1,7 @@
 import React from 'react';
 import './customerLoc.css';
-import MapComp from './MapComp';
-import blueMuted from './MapTheme/blueMuted';
+// import MapComp from './MapComp';
+// import blueMuted from './MapTheme/blueMuted';
 // import avocadoWorld from './MapTheme/avocadoWorld';
 
 const fakeData = [
@@ -42,11 +42,11 @@ export default _ => {
   return (
     <div id="right-customer-loc">
       <div id="box-map">
-        <MapComp
+        {/* <MapComp
           data={fakeData}
           officeLoc={officeLoc}
           mapTheme={blueMuted}
-        />
+        /> */}
       </div>
     </div>
   )

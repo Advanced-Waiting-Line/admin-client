@@ -6,6 +6,7 @@
   -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,.15);
   box-shadow: 0px 0px 15px 0px rgba(0,0,0,.15);
   overflow-x: auto;
+  padding-bottom: 33px;
 }
 
 #problem-list-head-box, .problem-list {
@@ -44,28 +45,26 @@
 .problem-list-head:nth-child(1), .problem-list-num {
   flex-basis: 70px;
   min-width: 100px;
-  /* border-bottom: .5px solid rgb(214, 214, 214); */
 }
 .problem-list-head:nth-child(2), .problem-list-name {
   min-width: 200px;
   flex-basis: 20%;
-  /* border-bottom: .5px solid rgb(214, 214, 214); */
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 .problem-list-head:nth-child(3), .problem-list-desc {
   min-width: 300px;
   flex-basis: 50%;
   padding: 0 10px;
-  /* border-bottom: .5px solid rgb(214, 214, 214); */
 }
 .problem-list-head:nth-child(4), .problem-list-time {
   min-width: 130px;
   flex-basis: 10%;
-  /* border-bottom: .5px solid rgb(214, 214, 214); */
 }
 .problem-list-head:nth-child(5), .problem-list-actions {
   min-width: 150px;
   flex-basis: 10%;
-  /* border-bottom: .5px solid rgb(214, 214, 214); */
 }
 .problem-list-actions button {
   width: 35px;
@@ -91,4 +90,107 @@
 }
 .problem-del:active {
   background-color: rgb(255, 62, 62);
+}
+
+textarea {
+  background-color: transparent;
+  border-radius: 3px;
+  border: .5px solid rgb(200, 200, 200);
+  padding: 10px 15px;
+}
+
+#problem-list-box input {
+  height: 0;
+  /* padding: 15px; */
+  width: 80%;
+}
+
+#add-problem {
+  display: flex;
+  align-items: center;
+  width: 165px;
+  background-color: #526FE9;
+  justify-content: space-around;
+  color: white;
+  -webkit-box-shadow: 3px 3px 10px 0px rgba(0,0,0,.5);
+  -moz-box-shadow: 3px 3px 10px 0px rgba(0,0,0,.5);
+  box-shadow: 3px 3px 10px 0px rgba(0,0,0,.5);
+  margin: 10px 0;
+}
+#add-problem:hover {
+  background-color: rgb(69, 100, 224);
+}
+#add-problem:active {
+  background-color: rgb(56, 89, 221);
+  -webkit-box-shadow: 1.5px 1.5px 10px 0px rgba(0,0,0,.4);
+  -moz-box-shadow: 1.5px 1.5px 10px 0px rgba(0,0,0,.4);
+  box-shadow: 1.5px 1.5px 10px 0px rgba(0,0,0,.4);
+}
+
+#add-problem-form {
+  flex-basis: 100%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  margin: 10px 0 20px;
+  -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,.15);
+  -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,.15);
+  box-shadow: 0px 0px 15px 0px rgba(0,0,0,.15);
+  flex-direction: column;
+}
+#name-problem, #desc-problem, #duration-problem {
+  display: flex;
+  align-items: center;
+}
+
+#add-problem-form p {
+  width: 130px;
+  margin: 20px;
+  color: rgb(80, 80, 80);
+  /* flex-basis: 80%; */
+}
+#add-problem-form input, #add-problem-form textarea {
+  color: rgb(90, 90, 90);
+  flex-grow: 1;
+  margin: 20px;
+  height: 10px;
+}
+#add-problem-form textarea {
+  height: 60px;
+}
+
+#problem-box-btn {
+  display: flex;
+}
+
+#add-problem-btn, #cancel-problem-btn {
+  background-color: #526FE9;
+  color: white;
+  margin: 20px;
+  -webkit-box-shadow: 2px 2px 5px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 2px 2px 5px 2px rgba(0,0,0,.15);
+  box-shadow: 2px 2px 5px 2px rgba(0,0,0,.15);
+}
+#add-problem-btn:hover {
+  background-color: rgb(69, 100, 224);
+}
+#add-problem-btn:active {
+  background-color: rgb(56, 89, 221);
+  -webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.15);
+  -moz-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.15);
+  box-shadow: 2px 2px 5px 1px rgba(0,0,0,.15);
+}
+
+#cancel-problem-btn {
+  background-color: rgb(245, 88, 88);
+  color: white;
+  margin-right: 0;
+}
+#cancel-problem-btn:hover {
+  background-color: rgb(240, 78, 78);
+}
+#cancel-problem-btn:active {
+  background-color: rgb(238, 71, 71);
+  -webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.15);
+  -moz-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.15);
+  box-shadow: 2px 2px 5px 1px rgba(0,0,0,.15);
 }

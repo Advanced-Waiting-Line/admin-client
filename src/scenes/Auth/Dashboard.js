@@ -1,8 +1,11 @@
 import React from 'react';
 import { ArrowUp } from 'react-feather';
+import moment from 'moment';
 import './dashboard.css';
 
-export default _ => {
+export default ({ data }) => {
+  console.log(data);
+
   return (
     <div id="right-dashboard">
 
@@ -50,25 +53,27 @@ export default _ => {
           <span>Recent Customers</span>
         </div>
         <div id="body-customer-list">
-          <div id="customer-list">
-            <div id="customer-pic">
-              <img src="assets/male.png" alt="profile"/>
+          {data.map(el => (
+            <div id="customer-list" key={el._id}>
+              <div id="customer-pic">
+                <img src="assets/male.png" alt="profile"/>
+              </div>
+              <div id="customer-desc">
+                <h5>{`${el.userId.firstName} ${el.userId.lastName}`}</h5>
+                <p>{el.problem.name}</p>
+              </div>
+              <div className="flex-spacer"></div>
+              <div id="customer-time">
+                <div id="circle"></div>
+                <p>{moment(el.checkIn).format('LT')}</p>
+              </div>
+              <div className="flex-spacer"></div>
+              <div id="button-action">
+                <button id="btn-late">Come Late</button>
+                <button id="btn-done">Done</button>
+              </div>
             </div>
-            <div id="customer-desc">
-              <h5>The Fullname</h5>
-              <p>Card issue</p>
-            </div>
-            <div className="flex-spacer"></div>
-            <div id="customer-time">
-              <div id="circle"></div>
-              <p>14:30</p>
-            </div>
-            <div className="flex-spacer"></div>
-            <div id="button-action">
-              <button id="btn-late">Come Late</button>
-              <button id="btn-done">Done</button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
