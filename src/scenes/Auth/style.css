@@ -4,6 +4,12 @@
   background-color: #00E0FF;
 }
 
+#right-dashboard, #right-problem-list, #right-customer-loc {
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 #sidebar {
   font-family: 'Opensans-light';
   min-width: 270px;
@@ -22,7 +28,7 @@
   display: flex;
   align-items: center;
   height: 35px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 #sidebar-header h2 {

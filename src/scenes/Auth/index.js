@@ -3,9 +3,10 @@ import { Home, List, Map, Settings, Bell, ChevronDown, User, LogOut} from 'react
 import './style.css';
 import Dashboard from './Dashboard';
 import ProblemList from './ProblemList';
+import CustomerLoc from './CustomerLoc';
 
 export default _ => {
-  const [activeMenu, setActiveMenu] = useState('Problem List');
+  const [activeMenu, setActiveMenu] = useState('Customer Location');
   const [dropdown, setDropdown] = useState(false);
 
   const menus = [
@@ -34,13 +35,13 @@ export default _ => {
           <div className="menu-header">
             <span>Main Menu</span>
           </div>
-          {menus.map(el => (
+          {menus.map((el, i) => (
             el.text === activeMenu ?
-            <div className="menu-body active" onClick={_ => setActiveMenu(el.text)}>
+            <div className="menu-body active" key={i} onClick={_ => setActiveMenu(el.text)}>
               {el.icon}
               <span>{el.text}</span>
             </div> :
-            <div className="menu-body" onClick={_ => setActiveMenu(el.text)}>
+            <div className="menu-body" key={i} onClick={_ => setActiveMenu(el.text)}>
               {el.icon}
               <span>{el.text}</span>
             </div>
@@ -92,6 +93,9 @@ export default _ => {
         }
         {activeMenu === 'Problem List' &&
           <ProblemList/>
+        }
+        {activeMenu === 'Customer Location' &&
+          <CustomerLoc/>
         }
       </div>
     </section>
