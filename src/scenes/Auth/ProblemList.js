@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Plus, Minus, Edit, Trash, CheckSquare, X } from 'react-feather';
+import './problemList.css';
 
 // <=========== Graphql ===========>
 import { useMutation } from '@apollo/react-hooks';
 import { useQuery } from '@apollo/react-hooks';
-import { STARTER_DASHBOARD } from '../../services/graphql/query';
+import { GET_COMPANY_PROBLEM } from '../../services/graphql/query';
 import { ADD_PROBLEM_LIST } from '../../services/graphql/mutation';
-import './problemList.css';
 
-export default ({ data, pushNewProb }) => {
+export default _ => {
+  const { loading, error, data } = useQuery(GET_COMPANY_PROBLEM, {
+    variables: {
+      companyId: "5d88465602f655116b51239e"
+    }
+  });
 
   const [addList, setAddList] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -33,26 +38,26 @@ export default ({ data, pushNewProb }) => {
     setEditDuration(duration);
   }
 
-  const [addProblemList, { loading: loadingAdd, error: errorAdd }] = useMutation(ADD_PROBLEM_LIST, {
+  const [addProblemList] = useMutation(ADD_PROBLEM_LIST, {
     onCompleted() {
       setAddList(false);
     },
     onError() {
     },
     update(cache, { data: { createProblem } } ) {
-      // cache in parent not solve with this fn
-      pushNewProb(createProblem);
-      // <<<< special fn >>>>
-
-      const data = cache.readQuery({ query: STARTER_DASHBOARD, variables: {
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg4NDY1NjAyZjY1NTExNmI1MTIzOWUiLCJlbWFpbCI6ImNvbXBhbnkxQG1haWwuY29tIiwiaWF0IjoxNTY5MjEzNTc4LCJleHAiOjE1Njk0Mjk1Nzh9.QZZ1gXJwziTFUCiTWMGKCn1Vkfy2fBgZ_n117g814jk",
+      const { getCompanyProblem } = cache.readQuery({ query: GET_COMPANY_PROBLEM, variables: {
         companyId: "5d88465602f655116b51239e"
       } });
-
+      
       cache.writeQuery({
-        query: STARTER_DASHBOARD,
-        data: { getTodayLog: data.getTodayLog, getCompanyProblem: (data.getCompanyProblem).concat([createProblem]) }
+        query: GET_COMPANY_PROBLEM,
+        variables: {
+          companyId: "5d88465602f655116b51239e"
+        },
+        data: { getCompanyProblem: getCompanyProblem.concat([createProblem]) }
       });
+
+
     }
   });
 
@@ -67,6 +72,22 @@ export default ({ data, pushNewProb }) => {
       }
     })
     .catch(console.log);
+  }
+
+  if (loading) {
+    return (
+      <div id="right-dashboard">
+        <p>Loading ...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div id="right-dashboard">
+        <p>error :( Problem</p>
+      </div>
+    );
   }
 
   return (
@@ -117,7 +138,7 @@ export default ({ data, pushNewProb }) => {
             <span>Actions</span>
           </div>
         </div>
-        {data.map((el, i) => (
+        {data.getCompanyProblem.map((el, i) => (
           <div className="problem-list" key={el._id}>
             <div className="problem-list-num">
               <span>{ i+1 }</span>

@@ -3,8 +3,32 @@ import { ArrowUp } from 'react-feather';
 import moment from 'moment';
 import './dashboard.css';
 
-export default ({ data }) => {
-  console.log(data);
+// <=========== Graphql ===========>
+import { useQuery } from '@apollo/react-hooks';
+import { GET_TODAY_LOG } from '../../services/graphql/query';
+
+export default _ => {
+  const { loading, error, data } = useQuery(GET_TODAY_LOG, {
+    variables: {
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg4NDY1NjAyZjY1NTExNmI1MTIzOWUiLCJlbWFpbCI6ImNvbXBhbnkxQG1haWwuY29tIiwiaWF0IjoxNTY5MjEzNTc4LCJleHAiOjE1Njk0Mjk1Nzh9.QZZ1gXJwziTFUCiTWMGKCn1Vkfy2fBgZ_n117g814jk",
+    }
+  });
+
+  if (loading) {
+    return (
+      <div id="right-dashboard">
+        <p>Loading ...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div id="right-dashboard">
+        <p>error :( dashboard</p>
+      </div>
+    );
+  }
 
   return (
     <div id="right-dashboard">
@@ -53,7 +77,7 @@ export default ({ data }) => {
           <span>Recent Customers</span>
         </div>
         <div id="body-customer-list">
-          {data.map(el => (
+          {data.getTodayLog.map(el => (
             <div id="customer-list" key={el._id}>
               <div id="customer-pic">
                 <img src="assets/male.png" alt="profile"/>
