@@ -14,7 +14,7 @@ import { ADD_PROBLEM_LIST, DELETE_PROBLEM } from '../../services/graphql/mutatio
 export default _ => {
   const { loading, error, data } = useQuery(GET_COMPANY_PROBLEM, {
     variables: {
-      companyId: "5d88465602f655116b51239e"
+      companyId: localStorage.getItem('ccid'),
     }
   });
   const [targetDel, setTargetDel] = useState('');
@@ -95,7 +95,7 @@ export default _ => {
   const handleAdd = () => {
     addProblemList({
       variables: {
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg4NDY1NjAyZjY1NTExNmI1MTIzOWUiLCJlbWFpbCI6ImNvbXBhbnkxQG1haWwuY29tIiwiaWF0IjoxNTY5MjEzNTc4LCJleHAiOjE1Njk0Mjk1Nzh9.QZZ1gXJwziTFUCiTWMGKCn1Vkfy2fBgZ_n117g814jk",
+        token: localStorage.getItem('token'),
         name: newName,
         description: newDesc,
         duration: newDuration,
@@ -136,7 +136,7 @@ export default _ => {
       </div>
     );
   }
-  
+
   return (
     <div id="right-problem-list">
       {showModal && 
@@ -202,7 +202,7 @@ export default _ => {
             <div className="problem-list-desc">
               {editMode == el._id ? 
                 <textarea spellCheck="false" value={editDesc} onChange={e => setEditDesc(e.target.value)} /> :       
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga voluptatum amet velit explicabo, nulla tempore nesciunt!</p>
+                <p>{el.description}</p>
               }
             </div>
             <div className="problem-list-time">

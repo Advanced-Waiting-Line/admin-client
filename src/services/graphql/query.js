@@ -27,6 +27,7 @@ export const GET_COMPANY_PROBLEM = gql`
     getCompanyProblem(companyId: $companyId) {
       _id
       name
+      description
       duration
     }
   }
