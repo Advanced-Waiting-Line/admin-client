@@ -11,6 +11,17 @@ export const ADD_PROBLEM_LIST = gql`
   }
 `;
 
+export const UPDATE_PROBLEM = gql`
+  mutation updateProblem($token: String!, $problemId: String!, $name: String!, $description: String!, $duration: Int!) {
+    updateProblem(token: $token, problemId: $problemId, name: $name, description: $description, duration: $duration) {
+      _id
+      name
+      description
+      duration
+    }
+  }
+`;
+
 export const DELETE_PROBLEM = gql`
   mutation deleteProblem($token: String!, $problemId: String!) {
     deleteProblem(token: $token, problemId: $problemId) {

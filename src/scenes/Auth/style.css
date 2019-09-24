@@ -96,6 +96,33 @@
   padding: 0 30px;
 }
 
+#lock-screen {
+  color: white;
+  background-color: #526FE9;
+  font-size: 14px;
+  width: 120px;
+  height: 40px;
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+}
+#lock-screen:hover {
+  background-color: rgb(74, 104, 226);
+}
+#lock-screen:active {
+  color: white;
+  background-color: rgb(64, 95, 218);
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.5);
+}
+.disabled-btn, .disabled-btn:hover, .disabled-btn:active {
+  background-color: rgb(143, 165, 255) !important;
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5) !important;
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5) !important;
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5) !important;
+}
+
 #dashboard-nav-right {
   display: flex;
   position: relative;

@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { Settings, Bell, ChevronDown, User, LogOut} from 'react-feather';
+import Loading from '../Loading/';
 
 export default _ => {
   const [dropdown, setDropdown] = useState(false);
+  const [statusLayer, setStatusLayer] = useState('Lock');
 
   return (
     <div id="dashboard-nav">
+      {statusLayer === 'Open' &&
+        <Loading></Loading>
+      }
+      <button id="lock-screen" onClick={_ => setStatusLayer(statusLayer === 'Lock' ? 'Open' : 'Lock')}>{statusLayer} Screen</button>
       <div className="flex-spacer"></div>
       <div id="dashboard-nav-right">
         <button className="btn-no-text">

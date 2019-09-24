@@ -13,12 +13,15 @@ export default _ => {
       companyId: localStorage.getItem('ccid'),
     }
   });
+  
+  console.log(data)
 
   return (
     <div id="right-customer-loc">
       <div id="box-map">
         <MapComp
           data={data.findCompanyById.queue}
+          // data={[]}
           officeLoc={data.findCompanyById.location}
           mapTheme={blueMuted}
         />

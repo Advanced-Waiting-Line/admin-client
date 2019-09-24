@@ -8,7 +8,7 @@ import './problemList.css';
 import { useMutation } from '@apollo/react-hooks';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_COMPANY_PROBLEM } from '../../services/graphql/query';
-import { ADD_PROBLEM_LIST, DELETE_PROBLEM } from '../../services/graphql/mutation';
+import { ADD_PROBLEM_LIST, UPDATE_PROBLEM, DELETE_PROBLEM } from '../../services/graphql/mutation';
 
 
 export default _ => {
@@ -36,9 +36,10 @@ export default _ => {
   }
 
   const populateData = ({ _id, name, description, duration }) => {
+    setEditMode(false);
     setEditMode(_id);
     setEditName(name);
-    setEditDesc('Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga voluptatum amet velit explicabo, nulla tempore nesciunt!');
+    setEditDesc(description);
     setEditDuration(duration);
   }
 
@@ -54,13 +55,13 @@ export default _ => {
     },
     update(cache, { data: { createProblem } } ) {
       const { getCompanyProblem } = cache.readQuery({ query: GET_COMPANY_PROBLEM, variables: {
-        companyId: "5d88465602f655116b51239e"
+        companyId: localStorage.getItem('ccid'),
       } });
       
       cache.writeQuery({
         query: GET_COMPANY_PROBLEM,
         variables: {
-          companyId: "5d88465602f655116b51239e"
+          companyId: localStorage.getItem('ccid'),
         },
         data: { getCompanyProblem: getCompanyProblem.concat([createProblem]) }
       });
@@ -69,21 +70,37 @@ export default _ => {
     }
   });
 
-  const [deleteProblem, { loading: loadingDel, error: errorDel }] = useMutation(DELETE_PROBLEM, {
-    onCompleted() {
-      // setAddList(false);
-    },
-    onError() {
-    },
-    update(cache, { data: { deleteProblem } } ) {
+  const [updateProblem, { loading: loadingEdit, error: errorEdit }] = useMutation(UPDATE_PROBLEM, {
+    update(cache, { data: { updateProblem } } ) {
       const { getCompanyProblem } = cache.readQuery({ query: GET_COMPANY_PROBLEM, variables: {
-        companyId: "5d88465602f655116b51239e"
+        companyId: localStorage.getItem('ccid'),
       } });
       
       cache.writeQuery({
         query: GET_COMPANY_PROBLEM,
         variables: {
-          companyId: "5d88465602f655116b51239e"
+          companyId: localStorage.getItem('ccid'),
+        },
+        data: { getCompanyProblem: getCompanyProblem.map(el => {
+          if (el._id === updateProblem._id) {
+            return updateProblem;
+          }
+          return el;
+        }) }
+      });
+    }
+  });
+  
+  const [deleteProblem, { loading: loadingDel, error: errorDel }] = useMutation(DELETE_PROBLEM, {
+    update(cache, { data: { deleteProblem } } ) {
+      const { getCompanyProblem } = cache.readQuery({ query: GET_COMPANY_PROBLEM, variables: {
+        companyId: localStorage.getItem('ccid'),
+      } });
+      
+      cache.writeQuery({
+        query: GET_COMPANY_PROBLEM,
+        variables: {
+          companyId: localStorage.getItem('ccid'),
         },
         data: { getCompanyProblem: getCompanyProblem.filter(el => el._id !== deleteProblem._id) }
       });
@@ -103,6 +120,20 @@ export default _ => {
     })
     .catch(console.log);
   }
+
+  const submitEdit = () => {
+    updateProblem({
+      variables: {
+        token: localStorage.getItem('token'),
+        problemId: editMode,
+        name: editName,
+        description: editDesc,
+        duration: editDuration,
+      }
+    })
+    console.log(editMode);
+    setEditMode(false);
+  }
   
   const handleDelete = problemId => {
     setShowModal(true);
@@ -112,7 +143,7 @@ export default _ => {
   const confirmDel = problemId => {
     deleteProblem({
       variables: {
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg4NDY1NjAyZjY1NTExNmI1MTIzOWUiLCJlbWFpbCI6ImNvbXBhbnkxQG1haWwuY29tIiwiaWF0IjoxNTY5MjEzNTc4LCJleHAiOjE1Njk0Mjk1Nzh9.QZZ1gXJwziTFUCiTWMGKCn1Vkfy2fBgZ_n117g814jk",
+        token: localStorage.getItem('token'),
         problemId,
       }
     })
@@ -121,7 +152,7 @@ export default _ => {
     setShowModal(false);
   }
 
-  if (loading || loadingAdd || loadingDel) {
+  if (loading || loadingAdd || loadingEdit || loadingDel) {
     return (
       <div id="right-dashboard">
         <Loading/>
@@ -129,7 +160,7 @@ export default _ => {
     );
   }
 
-  if (error || errorAdd || errorDel) {
+  if (error || errorAdd || errorEdit || errorDel) {
     return (
       <div id="right-dashboard">
         <p>error :( Problem</p>
@@ -194,27 +225,27 @@ export default _ => {
               <span>{ i+1 }</span>
             </div>
             <div className="problem-list-name">
-              {editMode == el._id ? 
+              {editMode === el._id ? 
                 <input type="text" value={editName} onChange={e => setEditName(e.target.value)}/> : 
                 <span>{ el.name }</span>
               }
             </div>
             <div className="problem-list-desc">
-              {editMode == el._id ? 
+              {editMode === el._id ? 
                 <textarea spellCheck="false" value={editDesc} onChange={e => setEditDesc(e.target.value)} /> :       
                 <p>{el.description}</p>
               }
             </div>
             <div className="problem-list-time">
-              {editMode == el._id ? 
+              {editMode === el._id ? 
                 <input value={editDuration} onChange={handleEditDuration}/> :
                 <span>{ el.duration } Minutes</span>
               }
             </div>
             <div className="problem-list-actions">
-              {editMode == el._id ? 
+              {editMode === el._id ? 
                 <>
-                  <button className="problem-edit" onClick={_ => {populateData(el)}}>
+                  <button className="problem-edit" onClick={_ => submitEdit()}>
                     <CheckSquare size="20" color="white" />
                   </button>
                   <button className="problem-del" onClick={_ => setEditMode(false)}>
@@ -222,7 +253,7 @@ export default _ => {
                   </button>
                 </> : 
                 <>
-                  <button className="problem-edit" onClick={_ => {populateData(el)}}>
+                  <button className="problem-edit" onClick={_ => populateData(el)}>
                     <Edit size="20" color="white" />
                   </button>
                   <button className="problem-del" onClick={_ => handleDelete(el._id)}>

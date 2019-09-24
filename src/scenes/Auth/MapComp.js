@@ -24,10 +24,10 @@ export default ({ mapTheme, data, officeLoc }) => {
         />
         {data.map((el, i) => (
           <Marker
-            key={el.id}
+            key={el._id}
             position={{
-              lat: el.location.latitude,
-              lng: el.location.longitude,
+              lat: el.userId.location.lat,
+              lng: el.userId.location.lng,
             }}
             icon={{ url: `assets/markers/marker_red${i+1}.png` }}
             onClick={_ => setSelected(el)}
@@ -36,8 +36,8 @@ export default ({ mapTheme, data, officeLoc }) => {
         {selected && 
           <InfoWindow
             position={{
-              lat: selected.location.latitude,
-              lng: selected.location.longitude,
+              lat: selected.userId.location.lat,
+              lng: selected.userId.location.lng,
             }}
             onCloseClick={_ => setSelected(null)}
           >

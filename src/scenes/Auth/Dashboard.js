@@ -3,17 +3,15 @@ import { ArrowUp } from 'react-feather';
 import moment from 'moment';
 import Loading from '../Loading/';
 import './dashboard.css';
-import client from '../../services/graphql/';
 
 // <=========== Graphql ===========>
 import { useQuery } from '@apollo/react-hooks';
-import { GET_TODAY_LOG, GET_COMPANY_INFO } from '../../services/graphql/query';
+import { GET_COMPANY_INFO } from '../../services/graphql/query';
 
 export default _ => {
   const { loading, error, data } = useQuery(GET_COMPANY_INFO, {
     variables: {
       companyId: localStorage.getItem('ccid'),
-      // token: localStorage.getItem('token'),
     }
   });
 
@@ -32,6 +30,8 @@ export default _ => {
       </div>
     );
   }
+
+  console.log(data);
 
   return (
     <div id="right-dashboard">

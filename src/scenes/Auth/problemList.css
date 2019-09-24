@@ -12,6 +12,9 @@
 #problem-list-head-box, .problem-list {
   display: flex;
 }
+.problem-list {
+  margin: 30px 0;
+}
 .problem-list:last-child {
   border: none;
 }
