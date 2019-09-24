@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Plus, Minus, Edit, Trash, CheckSquare, X } from 'react-feather';
+import Loading from '../Loading/';
+import Modal from '../Modal/';
 import './problemList.css';
 
 // <=========== Graphql ===========>
 import { useMutation } from '@apollo/react-hooks';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_COMPANY_PROBLEM } from '../../services/graphql/query';
-import { ADD_PROBLEM_LIST } from '../../services/graphql/mutation';
+import { ADD_PROBLEM_LIST, DELETE_PROBLEM } from '../../services/graphql/mutation';
+
 
 export default _ => {
   const { loading, error, data } = useQuery(GET_COMPANY_PROBLEM, {
@@ -14,7 +17,8 @@ export default _ => {
       companyId: "5d88465602f655116b51239e"
     }
   });
-
+  const [targetDel, setTargetDel] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const [addList, setAddList] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editName, setEditName] = useState('');
@@ -38,11 +42,15 @@ export default _ => {
     setEditDuration(duration);
   }
 
-  const [addProblemList] = useMutation(ADD_PROBLEM_LIST, {
+  const [addProblemList, { loading: loadingAdd, error: errorAdd }] = useMutation(ADD_PROBLEM_LIST, {
     onCompleted() {
       setAddList(false);
+      setNewName('');
+      setNewDesc('')
+      setNewDuration(0);
     },
     onError() {
+      console.log(errorAdd);
     },
     update(cache, { data: { createProblem } } ) {
       const { getCompanyProblem } = cache.readQuery({ query: GET_COMPANY_PROBLEM, variables: {
@@ -61,10 +69,32 @@ export default _ => {
     }
   });
 
+  const [deleteProblem, { loading: loadingDel, error: errorDel }] = useMutation(DELETE_PROBLEM, {
+    onCompleted() {
+      // setAddList(false);
+    },
+    onError() {
+    },
+    update(cache, { data: { deleteProblem } } ) {
+      const { getCompanyProblem } = cache.readQuery({ query: GET_COMPANY_PROBLEM, variables: {
+        companyId: "5d88465602f655116b51239e"
+      } });
+      
+      cache.writeQuery({
+        query: GET_COMPANY_PROBLEM,
+        variables: {
+          companyId: "5d88465602f655116b51239e"
+        },
+        data: { getCompanyProblem: getCompanyProblem.filter(el => el._id !== deleteProblem._id) }
+      });
+
+
+    }
+  });
+
   const handleAdd = () => {
     addProblemList({
       variables: {
-        // token: localStorage.getItem('token'),
         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg4NDY1NjAyZjY1NTExNmI1MTIzOWUiLCJlbWFpbCI6ImNvbXBhbnkxQG1haWwuY29tIiwiaWF0IjoxNTY5MjEzNTc4LCJleHAiOjE1Njk0Mjk1Nzh9.QZZ1gXJwziTFUCiTWMGKCn1Vkfy2fBgZ_n117g814jk",
         name: newName,
         description: newDesc,
@@ -73,25 +103,45 @@ export default _ => {
     })
     .catch(console.log);
   }
+  
+  const handleDelete = problemId => {
+    setShowModal(true);
+    setTargetDel(problemId);
+  }
+  
+  const confirmDel = problemId => {
+    deleteProblem({
+      variables: {
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg4NDY1NjAyZjY1NTExNmI1MTIzOWUiLCJlbWFpbCI6ImNvbXBhbnkxQG1haWwuY29tIiwiaWF0IjoxNTY5MjEzNTc4LCJleHAiOjE1Njk0Mjk1Nzh9.QZZ1gXJwziTFUCiTWMGKCn1Vkfy2fBgZ_n117g814jk",
+        problemId,
+      }
+    })
+    .catch(console.log);
+    
+    setShowModal(false);
+  }
 
-  if (loading) {
+  if (loading || loadingAdd || loadingDel) {
     return (
       <div id="right-dashboard">
-        <p>Loading ...</p>
+        <Loading/>
       </div>
     );
   }
 
-  if (error) {
+  if (error || errorAdd || errorDel) {
     return (
       <div id="right-dashboard">
         <p>error :( Problem</p>
       </div>
     );
   }
-
+  
   return (
     <div id="right-problem-list">
+      {showModal && 
+        <Modal targetId={targetDel} confirm={confirmDel} show={setShowModal} />
+      }
       <button id="add-problem" onClick={_ => addList ? setAddList(false) : setAddList(true)}>
         {addList ? 
           <Minus size="20" color="white"/> :
@@ -175,7 +225,7 @@ export default _ => {
                   <button className="problem-edit" onClick={_ => {populateData(el)}}>
                     <Edit size="20" color="white" />
                   </button>
-                  <button className="problem-del">
+                  <button className="problem-del" onClick={_ => handleDelete(el._id)}>
                     <Trash size="20" color="white" />
                   </button>
                 </>

@@ -1,23 +1,26 @@
 import React from 'react';
 import { ArrowUp } from 'react-feather';
 import moment from 'moment';
+import Loading from '../Loading/';
 import './dashboard.css';
+import client from '../../services/graphql/';
 
 // <=========== Graphql ===========>
 import { useQuery } from '@apollo/react-hooks';
-import { GET_TODAY_LOG } from '../../services/graphql/query';
+import { GET_TODAY_LOG, GET_COMPANY_INFO } from '../../services/graphql/query';
 
 export default _ => {
-  const { loading, error, data } = useQuery(GET_TODAY_LOG, {
+  const { loading, error, data } = useQuery(GET_COMPANY_INFO, {
     variables: {
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDg4NDY1NjAyZjY1NTExNmI1MTIzOWUiLCJlbWFpbCI6ImNvbXBhbnkxQG1haWwuY29tIiwiaWF0IjoxNTY5MjEzNTc4LCJleHAiOjE1Njk0Mjk1Nzh9.QZZ1gXJwziTFUCiTWMGKCn1Vkfy2fBgZ_n117g814jk",
+      companyId: localStorage.getItem('ccid'),
+      // token: localStorage.getItem('token'),
     }
   });
 
   if (loading) {
     return (
       <div id="right-dashboard">
-        <p>Loading ...</p>
+        <Loading/>
       </div>
     );
   }
@@ -32,7 +35,6 @@ export default _ => {
 
   return (
     <div id="right-dashboard">
-
       <div id="total-customer">
         <div id="head-total-customer">
           <span>Daily Customers</span>
@@ -77,7 +79,7 @@ export default _ => {
           <span>Recent Customers</span>
         </div>
         <div id="body-customer-list">
-          {data.getTodayLog.map(el => (
+          {data.findCompanyById.queue.map(el => (
             <div id="customer-list" key={el._id}>
               <div id="customer-pic">
                 <img src="assets/male.png" alt="profile"/>

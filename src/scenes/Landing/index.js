@@ -1,11 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Lock } from 'react-feather';
+import Loading from '../Loading/';
 import './style.css';
 
-export default _ => {
+// <=========== Graphql ===========>
+import { useMutation } from '@apollo/react-hooks';
+import { LOGIN } from '../../services/graphql/mutation';
+
+export default ({ setIsLogin }) => {
+
+  const [emailLogin, setEmailLogin] = useState('');
+  const [passLogin, setPassLogin] = useState('');
+  const [login, { loading, error }] = useMutation(LOGIN, {
+    onCompleted({ loginCompany: data }) {
+      setIsLogin(true);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('ccid', data._id);
+    }
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
+    login({
+      variables: {
+        email: emailLogin,
+        password: passLogin,
+      }
+    }).catch(console.log);
+  }
+
+  if (loading) {
+    return <Loading/>
+  }
+
+  if (error) {
+    return <p>Error</p>
   }
 
   return (
@@ -22,7 +51,7 @@ export default _ => {
           <div id="main-jumbotron-text-box">
             <div id="main-jumbotron-text">
               <h2>Advanced Waiting Line</h2>
-              <p>Waiting is bored! Now, Awan ready to help your management customer queue. Increase your service with Awan. Give more care to your customers.</p>
+              <p>Don't make your customer wait! Awan solves one of the most irritating daily problems which is standing in line by offering an automated mobile queuing app to better manage the flow of the queue and save people a lot of time. Get in the queue before you arrive, use Awan!</p>
             </div>
           </div>
 
@@ -31,8 +60,8 @@ export default _ => {
               <Lock size='50' color="rgba(98, 124, 240, .7)"></Lock>
               <h2>Login</h2>
               <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="Email"/>
-                <input type="password" placeholder="Password"/>
+                <input type="text" placeholder="Email" value={emailLogin} onChange={e => setEmailLogin(e.target.value)} />
+                <input type="password" placeholder="Password" value={passLogin} onChange={e => setPassLogin(e.target.value)}/>
                 <button type="submit" className="btn btn-blue btn-max" id="btn-login">Login</button>
               </form>
             </div>

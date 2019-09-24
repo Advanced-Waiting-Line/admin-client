@@ -7,7 +7,7 @@ import ProblemList from './ProblemList';
 import CustomerLoc from './CustomerLoc';
 
 export default _ => {
-  const [activeMenu, setActiveMenu] = useState('Problem List');
+  const [activeMenu, setActiveMenu] = useState('Dashboard');
 
   return (
     <section id="dashboard">
