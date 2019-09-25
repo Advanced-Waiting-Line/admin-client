@@ -73,3 +73,23 @@ export const GET_COMPANY_INFO = gql`
     }
   }
 `;
+
+export const GET_DAILY_PERCENTAGE = gql`
+  query getDailyPercentage($token: String!) {
+    getDailyPercentage(token: $token) {
+      percentage
+      currentDay
+      lastDay
+    }
+  }
+`;
+
+export const GET_WEEKLY_PERCENTAGE = gql`
+  query getWeeklyPercentage($token: String!) {
+    getWeeklyPercentage(token: $token) {
+      percentage
+      currentWeek
+      lastWeek
+    }
+  }
+`;

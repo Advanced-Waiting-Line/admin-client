@@ -8,6 +8,8 @@ export default ({ data }) => {
 
   const [theme, setTheme] = useState(blueMuted);
   
+  console.log(data);
+
   return (
     <div id="right-customer-loc">
       <div id="box-theme-btn">

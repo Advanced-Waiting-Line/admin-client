@@ -12,8 +12,13 @@
   font-size: 17px;
 }
 
+#wrong {
+  color: rgb(247, 89, 89);
+}
+
 #main-jumbotron {
-  height: 720px;
+  /* height: 720px; */
+  height: 100vh;
   width: 100%;
   background-image: linear-gradient(to bottom right, 
     rgba(43, 93, 164, 1) 0%,

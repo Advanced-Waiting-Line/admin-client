@@ -7,7 +7,7 @@ import ProblemList from './ProblemList';
 import CustomerLoc from './CustomerLoc';
 
 import { useQuery } from '@apollo/react-hooks';
-import { GET_COMPANY_PROBLEM, GET_COMPANY_INFO } from '../../services/graphql/query';
+import { GET_COMPANY_PROBLEM, GET_COMPANY_INFO, GET_DAILY_PERCENTAGE, GET_WEEKLY_PERCENTAGE } from '../../services/graphql/query';
 
 // <=========== FIREBASE ===========>
 import db from '../../services/api/firestore';
@@ -28,12 +28,26 @@ export default ({ setIsLogin }) => {
     }
   });
 
+  const { loading: loadingDaily, error: errorDaily, data: dataDaily, refetch: refetchDaily } = useQuery(GET_DAILY_PERCENTAGE, {
+    variables: {
+      token: localStorage.getItem('token'),
+    }
+  });
+
+  const { loading: loadingWeekly, error: errorWeekly, data: dataWeekly, refetch: refetchWeekly } = useQuery(GET_WEEKLY_PERCENTAGE, {
+    variables: {
+      token: localStorage.getItem('token'),
+    }
+  });
+
   const refectAll = _ => {
     db.collection('awansub')
     .onSnapshot(_ => {
       refetchFetchCompany();
       refetchProblem();
-      console.log('sub');
+      refetchDaily();
+      refetchWeekly();
+      console.log('subscribe');
     });
   }
 
@@ -42,16 +56,36 @@ export default ({ setIsLogin }) => {
       <Sidebar activeMenu={activeMenu} setActiveMenu={setActiveMenu}/>
 
       <div id="dashboard-body">
-        <Navbar setIsLogin={setIsLogin}/>
+        <Navbar
+          setIsLogin={setIsLogin}
+          loading={loadingFetchCompany}
+          data={dataFetchCompany}
+        />
         
         {activeMenu === 'Dashboard' &&
-          <Dashboard loading={loadingFetchCompany} error={errorFetchCompany} data={dataFetchCompany}refetch={refetchFetchCompany} />
+          <Dashboard
+            refetch={refectAll}
+            data={dataFetchCompany || []}
+            loading={loadingFetchCompany}
+            error={errorFetchCompany}
+            dataDaily={dataDaily || []}
+            loadingDaily={loadingDaily}
+            errorDaily={errorDaily}
+            dataWeekly={dataWeekly || []}
+            loadingWeekly={loadingWeekly}
+            errorWeekly={errorWeekly}
+          />
         }
         {activeMenu === 'Problem List' &&
-          <ProblemList loading={loadingFetchProblem} error={errorFetchProblem} data={dataFetchProblem} refetch={refectAll} />
+          <ProblemList
+            loading={loadingFetchProblem}
+            error={errorFetchProblem}
+            data={dataFetchProblem || []}
+            refetch={refectAll}
+          />
         }
         {activeMenu === 'Customer Location' &&
-          <CustomerLoc data={refectAll} />
+          <CustomerLoc data={dataFetchCompany} />
         }
       </div>
     </section>

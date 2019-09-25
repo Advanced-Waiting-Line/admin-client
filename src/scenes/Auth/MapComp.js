@@ -13,8 +13,8 @@ export default ({ mapTheme, data, officeLoc }) => {
   
     return (
       <GoogleMap
-        zoom={11}
-        center={{ lat: -6.191209, lng: 106.827195 }}
+        zoom={13}
+        center={officeLoc}
         options={{ styles: mapTheme }}
       >
         <Marker 

@@ -49,3 +49,11 @@ export const REMOVE_FROM_QUEUE = gql`
     }
   }
 `;
+
+export const EDIT_DURATION_QUEUE = gql`
+  mutation updateDurationQueue($token: String!, $queueId: String!, $duration: Int!) {
+    updateDurationQueue(token: $token, queueId: $queueId, duration: $duration) {
+      message
+    }
+  }
+`;

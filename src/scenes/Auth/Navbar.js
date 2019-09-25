@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Settings, Bell, ChevronDown, User, LogOut} from 'react-feather';
 
-export default ({ setIsLogin }) => {
+export default ({ setIsLogin, data }) => {
   const [dropdown, setDropdown] = useState(false);
 
   const logout = _ => {
@@ -25,9 +25,9 @@ export default ({ setIsLogin }) => {
             <div id="dropdown-setting">
               <div id="dropdown-head">
                 <div id="dropdown-box-img">
-                  <img src="assets/male.png" alt="profile"/>
+                  <img src={data.findCompanyById.image || 'assets/male.png'} alt="profile"/>
                 </div>
-                <span>Full Name</span>
+                <span>{data.findCompanyById.name}</span>
               </div>
               <div id="dropdown-body">
                 <div id="dropdown-list">
