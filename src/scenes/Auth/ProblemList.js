@@ -6,26 +6,10 @@ import './problemList.css';
 
 // <=========== Graphql ===========>
 import { useMutation } from '@apollo/react-hooks';
-import { useQuery } from '@apollo/react-hooks';
 import { GET_COMPANY_PROBLEM } from '../../services/graphql/query';
 import { ADD_PROBLEM_LIST, UPDATE_PROBLEM, DELETE_PROBLEM } from '../../services/graphql/mutation';
 
-// <=========== FIREBASE ===========>
-import db from '../../services/api/firestore';
-
-export default _ => {
-  
-  const { loading, error, data, refetch } = useQuery(GET_COMPANY_PROBLEM, {
-    variables: {
-      companyId: localStorage.getItem('ccid'),
-    }
-  });
-  
-  // db.collection('awansub')
-  //   .onSnapshot(_ => {
-  //     refetch();
-  //     console.log('sub problem');
-  //   });
+export default ({ data, loading, error }) => {
 
   const [targetDel, setTargetDel] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -75,8 +59,6 @@ export default _ => {
         },
         data: { getCompanyProblem: getCompanyProblem.concat([createProblem]) }
       });
-
-
     }
   });
 
@@ -184,7 +166,7 @@ export default _ => {
       </div>
     );
   }
-
+  
   return (
     <div id="right-problem-list">
       {showModal && 

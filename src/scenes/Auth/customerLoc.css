@@ -4,3 +4,26 @@
   flex-basis: 100%;
   margin-top: 20px;
 }
+
+#box-theme-btn {
+  display: flex;
+}
+
+#box-theme-btn button {
+  background-color: royalblue;
+  color: white;
+  margin-right: 12px;
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+}
+#box-theme-btn button:hover {
+  background-color: rgb(55, 94, 212);
+  color: white;
+  margin-right: 12px;
+}
+#box-theme-btn button:active {
+  background-color: rgb(44, 84, 202);
+  color: white;
+  margin-right: 12px;
+}

@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Settings, Bell, ChevronDown, User, LogOut} from 'react-feather';
 
-export default _ => {
+export default ({ setIsLogin }) => {
   const [dropdown, setDropdown] = useState(false);
 
   const logout = _ => {
-
+    localStorage.clear();
+    setIsLogin(false);
   }
 
   return (
     <div id="dashboard-nav">
+      <div className="flex-spacer"></div>
       <div id="dashboard-nav-right">
         <button className="btn-no-text">
           <Bell size="17" />
@@ -36,7 +38,7 @@ export default _ => {
                   <User size="15" />
                   <span>My Profile</span>
                 </div>
-                <div id="dropdown-list">
+                <div id="dropdown-list" onClick={_ => logout()}>
                   <LogOut size="15" />
                   <span>Log Out</span>
                 </div>

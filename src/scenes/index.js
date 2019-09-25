@@ -14,7 +14,7 @@ const Main = _ => {
   
   if (isLogin) {
     return (
-      <Auth/>
+      <Auth setIsLogin={setIsLogin}/>
     )
   } else {
     return (
