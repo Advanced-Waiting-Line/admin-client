@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Settings, Bell, ChevronDown, User, LogOut} from 'react-feather';
-import Loading from '../Loading/';
 
 export default _ => {
   const [dropdown, setDropdown] = useState(false);
 
   const logout = _ => {
-    
+
   }
 
   return (

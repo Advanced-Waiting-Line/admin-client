@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Plus, Minus, Edit, Trash, CheckSquare, X } from 'react-feather';
 import Loading from '../Loading/';
 import Modal from '../Modal/';
@@ -20,19 +20,12 @@ export default _ => {
       companyId: localStorage.getItem('ccid'),
     }
   });
-
-  const firstRun = useRef(true);
-  useEffect(_ => {
-    if (firstRun.current) {
-      firstRun.current = false;
-    } else {
-      db.collection('awansub')
-        .onSnapshot(_ => {
-          refetch();
-          console.log('sub problem');
-        });
-    }
-  }, [data]);
+  
+  db.collection('awansub')
+    .onSnapshot(_ => {
+      refetch();
+      console.log('sub problem');
+    });
 
   const [targetDel, setTargetDel] = useState('');
   const [showModal, setShowModal] = useState(false);

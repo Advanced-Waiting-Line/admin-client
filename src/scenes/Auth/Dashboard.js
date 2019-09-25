@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { ArrowUp } from 'react-feather';
 import moment from 'moment';
 import Loading from '../Loading/';
@@ -19,18 +19,11 @@ export default _ => {
   });
   const [statusLayer, setStatusLayer] = useState('Lock');
 
-  const firstRun = useRef(true);
-  useEffect(_ => {
-    if (firstRun.current) {
-      firstRun.current = false;
-    } else {
-      db.collection('awansub')
-        .onSnapshot(_ => {
-          refetch();
-          console.log('sub dashboard');
-        });
-    }
-  }, [data]);
+  db.collection('awansub')
+    .onSnapshot(_ => {
+      refetch();
+      console.log('sub dashboard');
+    });
 
   if (loading) {
     return (
