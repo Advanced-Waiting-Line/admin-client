@@ -21,11 +21,11 @@ export default _ => {
     }
   });
   
-  db.collection('awansub')
-    .onSnapshot(_ => {
-      refetch();
-      console.log('sub problem');
-    });
+  // db.collection('awansub')
+  //   .onSnapshot(_ => {
+  //     refetch();
+  //     console.log('sub problem');
+  //   });
 
   const [targetDel, setTargetDel] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -168,6 +168,13 @@ export default _ => {
         <Loading/>
       </div>
     );
+  }
+  else {
+     db.collection('awansub')
+    .onSnapshot(_ => {
+      refetch();
+      console.log('sub problem');
+    });
   }
 
   if (error || errorAdd || errorEdit || errorDel) {
