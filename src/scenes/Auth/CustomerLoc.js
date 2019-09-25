@@ -1,29 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './customerLoc.css';
 import MapComp from './MapComp';
 import blueMuted from './MapTheme/blueMuted';
 import avocadoWorld from './MapTheme/avocadoWorld';
-import client from '../../services/graphql/';
-import { GET_COMPANY_INFO } from '../../services/graphql/query';
 
-export default _ => {
-  const data = client.readQuery({ 
-    query: GET_COMPANY_INFO,
-    variables: {
-      companyId: localStorage.getItem('ccid'),
-    }
-  });
+export default ({ data }) => {
+
+  const [theme, setTheme] = useState(blueMuted);
   
   return (
     <div id="right-customer-loc">
       <div id="box-theme-btn">
-        <button>Avocado</button>
+        <button onClick={_ => setTheme(blueMuted)}>Bluemuted</button>
+        <button onClick={_ => setTheme(avocadoWorld)}>Avocado</button>
       </div>
       <div id="box-map">
         <MapComp
           data={data.findCompanyById.queue}
           officeLoc={data.findCompanyById.location}
-          mapTheme={blueMuted}
+          mapTheme={theme}
         />
       </div>
     </div>

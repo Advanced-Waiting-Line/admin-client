@@ -4,26 +4,9 @@ import moment from 'moment';
 import Loading from '../Loading/';
 import './dashboard.css';
 
-// <=========== Graphql ===========>
-import { useQuery } from '@apollo/react-hooks';
-import { GET_COMPANY_INFO } from '../../services/graphql/query';
-
-// <=========== FIREBASE ===========>
-import db from '../../services/api/firestore';
-
-export default _ => {
-  const { loading, error, data, refetch } = useQuery(GET_COMPANY_INFO, {
-    variables: {
-      companyId: localStorage.getItem('ccid'),
-    }
-  });
+export default ({ data, loading, error }) => {
+  
   const [statusLayer, setStatusLayer] = useState('Lock');
-
-  db.collection('awansub')
-    .onSnapshot(_ => {
-      refetch();
-      console.log('sub dashboard');
-    });
 
   if (loading) {
     return (
