@@ -157,3 +157,8 @@
 #btn-done:active {
   background-image: linear-gradient(to right, rgb(16, 179, 216) 0%, rgb(23, 211, 164) 100%);
 }
+
+#dashboard-box-btn {
+  flex-basis: 100%;
+  margin: 0 0 10px 10px;
+}

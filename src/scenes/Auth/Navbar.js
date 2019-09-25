@@ -4,15 +4,13 @@ import Loading from '../Loading/';
 
 export default _ => {
   const [dropdown, setDropdown] = useState(false);
-  const [statusLayer, setStatusLayer] = useState('Lock');
+
+  const logout = _ => {
+    
+  }
 
   return (
     <div id="dashboard-nav">
-      {statusLayer === 'Open' &&
-        <Loading></Loading>
-      }
-      <button id="lock-screen" onClick={_ => setStatusLayer(statusLayer === 'Lock' ? 'Open' : 'Lock')}>{statusLayer} Screen</button>
-      <div className="flex-spacer"></div>
       <div id="dashboard-nav-right">
         <button className="btn-no-text">
           <Bell size="17" />

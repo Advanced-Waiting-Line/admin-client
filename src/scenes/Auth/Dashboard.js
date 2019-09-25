@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUp } from 'react-feather';
 import moment from 'moment';
 import Loading from '../Loading/';
@@ -8,12 +8,29 @@ import './dashboard.css';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_COMPANY_INFO } from '../../services/graphql/query';
 
+// <=========== FIREBASE ===========>
+import db from '../../services/api/firestore';
+
 export default _ => {
-  const { loading, error, data } = useQuery(GET_COMPANY_INFO, {
+  const { loading, error, data, refetch } = useQuery(GET_COMPANY_INFO, {
     variables: {
       companyId: localStorage.getItem('ccid'),
     }
   });
+  const [statusLayer, setStatusLayer] = useState('Lock');
+
+  const firstRun = useRef(true);
+  useEffect(_ => {
+    if (firstRun.current) {
+      firstRun.current = false;
+    } else {
+      db.collection('awansub')
+        .onSnapshot(_ => {
+          refetch();
+          console.log('sub dashboard');
+        });
+    }
+  }, [data]);
 
   if (loading) {
     return (
@@ -31,49 +48,53 @@ export default _ => {
     );
   }
 
-  console.log(data);
-
   return (
     <div id="right-dashboard">
-      <div id="total-customer">
-        <div id="head-total-customer">
-          <span>Daily Customers</span>
-        </div>
-        <div id="body-total-customer">
-          <div id="body-total-exp">
-            <ArrowUp />
-            <h3>25 people</h3>
-            <div className="flex-spacer"></div>
-            <div id="percen-total">
-              <p>56%</p>
+      <div id="dashboard-box-btn">
+        <button id="lock-screen" onClick={_ => setStatusLayer(statusLayer === 'Lock' ? 'Open' : 'Lock')}>{statusLayer} Screen</button>
+      </div>
+      {statusLayer === 'Open' ?
+        <Loading></Loading> :
+        <>
+          <div id="total-customer">
+            <div id="head-total-customer">
+              <span>Daily Customers</span>
+            </div>
+            <div id="body-total-customer">
+              <div id="body-total-exp">
+                <ArrowUp />
+                <h3>25 people</h3>
+                <div className="flex-spacer"></div>
+                <div id="percen-total">
+                  <p>56%</p>
+                </div>
+              </div>
+              <div id="progress-bar">
+                <div id="progress" style={{ width: '56%' }}></div>
+              </div>
             </div>
           </div>
-          <div id="progress-bar">
-            <div id="progress" style={{ width: '56%' }}></div>
-          </div>
-        </div>
-      </div>
-      
-      <div id="total-customer">
-        <div id="head-total-customer">
-          <span>Weekly Customers</span>
-        </div>
-        <div id="body-total-customer">
-          <div id="body-total-exp">
-            <ArrowUp />
-            <h3>40 people</h3>
-            <div className="flex-spacer"></div>
-            <div id="percen-total">
-              <p>20%</p>
+          
+          <div id="total-customer">
+            <div id="head-total-customer">
+              <span>Weekly Customers</span>
+            </div>
+            <div id="body-total-customer">
+              <div id="body-total-exp">
+                <ArrowUp />
+                <h3>40 people</h3>
+                <div className="flex-spacer"></div>
+                <div id="percen-total">
+                  <p>20%</p>
+                </div>
+              </div>
+              <div id="progress-bar">
+                <div id="progress" style={{ width: '20%' }}></div>
+              </div>
             </div>
           </div>
-          <div id="progress-bar">
-            <div id="progress" style={{ width: '20%' }}></div>
-          </div>
-        </div>
-      </div>
 
-      <div id="customer-box-list">
+          <div id="customer-box-list">
         <div id="header-recent-customer">
           <div id="just-block"></div>
           <span>Recent Customers</span>
@@ -102,7 +123,8 @@ export default _ => {
           ))}
         </div>
       </div>
-
+        </>
+      }
     </div>
   );
 };

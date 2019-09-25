@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Plus, Minus, Edit, Trash, CheckSquare, X } from 'react-feather';
 import Loading from '../Loading/';
 import Modal from '../Modal/';
@@ -21,12 +21,17 @@ export default _ => {
     }
   });
 
+  const firstRun = useRef(true);
   useEffect(_ => {
-    db.collection('awansub')
-      .onSnapshot(_ => {
-        console.log('sub');
-        refetch();
-    });
+    if (firstRun.current) {
+      firstRun.current = false;
+    } else {
+      db.collection('awansub')
+        .onSnapshot(_ => {
+          refetch();
+          console.log('sub problem');
+        });
+    }
   }, [data]);
 
   const [targetDel, setTargetDel] = useState('');
