@@ -4,11 +4,32 @@ import moment from 'moment';
 import Loading from '../Loading/';
 import './dashboard.css';
 
+// <=========== Graphql ===========>
+import { useMutation } from '@apollo/react-hooks';
+import { REMOVE_FROM_QUEUE } from '../../services/graphql/mutation';
+
 export default ({ data, loading, error }) => {
   
-  const [statusLayer, setStatusLayer] = useState('Lock');
+  const [removeFromQueue, { loading: loadingRemoveQueue, errorRemoveQueue }] = useMutation(REMOVE_FROM_QUEUE, {
+    onCompleted() {
+    },
+    onError() {
+      console.log(errorRemoveQueue);
+    },
+  });
 
-  if (loading) {
+  const [statusLayer, setStatusLayer] = useState('Lock');
+  
+  const handleRemoveQueue = queueId => {
+    removeFromQueue({
+      variables: {
+        token: localStorage.getItem('token'),
+        queueId
+      }
+    })
+  };
+
+  if (loading || loadingRemoveQueue) {
     return (
       <div id="right-dashboard">
         <Loading/>
@@ -93,7 +114,7 @@ export default ({ data, loading, error }) => {
               <div className="flex-spacer"></div>
               <div id="button-action">
                 <button id="btn-late">Come Late</button>
-                <button id="btn-done">Done</button>
+                <button id="btn-done" onClick={_ => handleRemoveQueue(el._id)}>Done</button>
               </div>
             </div>
           ))}

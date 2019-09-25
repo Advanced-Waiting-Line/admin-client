@@ -7,7 +7,11 @@ import './problemList.css';
 // <=========== Graphql ===========>
 import { useMutation } from '@apollo/react-hooks';
 import { GET_COMPANY_PROBLEM } from '../../services/graphql/query';
-import { ADD_PROBLEM_LIST, UPDATE_PROBLEM, DELETE_PROBLEM } from '../../services/graphql/mutation';
+import {
+  ADD_PROBLEM_LIST,
+  UPDATE_PROBLEM,
+  DELETE_PROBLEM,
+} from '../../services/graphql/mutation';
 
 export default ({ data, loading, error }) => {
 
@@ -150,13 +154,6 @@ export default ({ data, loading, error }) => {
         <Loading/>
       </div>
     );
-  }
-  else {
-     db.collection('awansub')
-    .onSnapshot(_ => {
-      refetch();
-      console.log('sub problem');
-    });
   }
 
   if (error || errorAdd || errorEdit || errorDel) {

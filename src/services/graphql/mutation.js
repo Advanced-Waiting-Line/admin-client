@@ -41,3 +41,11 @@ export const LOGIN = gql`
   }
   }
 `;
+
+export const REMOVE_FROM_QUEUE = gql`
+  mutation removeFromQueue($token: String!, $queueId: String!) {
+    removeFromQueue(token: $token, queueId: $queueId) {
+      message
+    }
+  }
+`;
