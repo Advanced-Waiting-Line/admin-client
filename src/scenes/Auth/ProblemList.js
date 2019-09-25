@@ -13,7 +13,7 @@ import {
   DELETE_PROBLEM,
 } from '../../services/graphql/mutation';
 
-export default ({ data, loading, error }) => {
+export default ({ data, loading, error, refetch }) => {
 
   const [targetDel, setTargetDel] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -154,6 +154,10 @@ export default ({ data, loading, error }) => {
         <Loading/>
       </div>
     );
+  }
+
+  if (data) {
+    refetch();
   }
 
   if (error || errorAdd || errorEdit || errorDel) {

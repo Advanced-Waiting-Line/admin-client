@@ -28,11 +28,11 @@ export default ({ setIsLogin }) => {
     }
   });
 
-  if (!loadingFetchProblem && !loadingFetchCompany) {
+  const refectAll = _ => {
     db.collection('awansub')
     .onSnapshot(_ => {
-      refetchProblem();
       refetchFetchCompany();
+      refetchProblem();
       console.log('sub');
     });
   }
@@ -45,13 +45,13 @@ export default ({ setIsLogin }) => {
         <Navbar setIsLogin={setIsLogin}/>
         
         {activeMenu === 'Dashboard' &&
-          <Dashboard loading={loadingFetchCompany} error={errorFetchCompany} data={dataFetchCompany} />
+          <Dashboard loading={loadingFetchCompany} error={errorFetchCompany} data={dataFetchCompany}refetch={refetchFetchCompany} />
         }
         {activeMenu === 'Problem List' &&
-          <ProblemList loading={loadingFetchProblem} error={errorFetchProblem} data={dataFetchProblem} />
+          <ProblemList loading={loadingFetchProblem} error={errorFetchProblem} data={dataFetchProblem} refetch={refectAll} />
         }
         {activeMenu === 'Customer Location' &&
-          <CustomerLoc data={dataFetchCompany} />
+          <CustomerLoc data={refectAll} />
         }
       </div>
     </section>

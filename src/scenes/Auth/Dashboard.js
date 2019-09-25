@@ -8,7 +8,7 @@ import './dashboard.css';
 import { useMutation } from '@apollo/react-hooks';
 import { REMOVE_FROM_QUEUE } from '../../services/graphql/mutation';
 
-export default ({ data, loading, error }) => {
+export default ({ data, loading, error, refetch }) => {
   
   const [removeFromQueue, { loading: loadingRemoveQueue, errorRemoveQueue }] = useMutation(REMOVE_FROM_QUEUE, {
     onCompleted() {
@@ -35,6 +35,10 @@ export default ({ data, loading, error }) => {
         <Loading/>
       </div>
     );
+  }
+
+  if (data) {
+    refetch();
   }
 
   if (error) {

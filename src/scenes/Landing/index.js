@@ -13,10 +13,10 @@ export default ({ setIsLogin }) => {
   const [passLogin, setPassLogin] = useState('');
   const [login, { loading, error }] = useMutation(LOGIN, {
     onCompleted({ loginCompany: data }) {
-      setIsLogin(true);
       localStorage.setItem('token', data.token);
       localStorage.setItem('ccid', data._id);
-    }
+      setIsLogin(true);
+    },
   });
 
   const handleSubmit = e => {
