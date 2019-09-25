@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Minus, Edit, Trash, CheckSquare, X } from 'react-feather';
 import Loading from '../Loading/';
 import Modal from '../Modal/';
@@ -10,13 +10,25 @@ import { useQuery } from '@apollo/react-hooks';
 import { GET_COMPANY_PROBLEM } from '../../services/graphql/query';
 import { ADD_PROBLEM_LIST, UPDATE_PROBLEM, DELETE_PROBLEM } from '../../services/graphql/mutation';
 
+// <=========== FIREBASE ===========>
+import db from '../../services/api/firestore';
 
 export default _ => {
-  const { loading, error, data } = useQuery(GET_COMPANY_PROBLEM, {
+  
+  const { loading, error, data, refetch } = useQuery(GET_COMPANY_PROBLEM, {
     variables: {
       companyId: localStorage.getItem('ccid'),
     }
   });
+
+  useEffect(_ => {
+    db.collection('awansub')
+      .onSnapshot(_ => {
+        console.log('sub');
+        refetch();
+    });
+  }, [data]);
+
   const [targetDel, setTargetDel] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [addList, setAddList] = useState(false);
