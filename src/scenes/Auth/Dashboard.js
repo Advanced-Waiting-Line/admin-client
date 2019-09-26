@@ -92,7 +92,7 @@ export default ({ data, loading, error, refetch, dataDaily, loadingDaily, errorD
     );
   }
 
-  console.log(data);
+  console.log(dataWeekly.getWeeklyPercentage.percentage >= 0, dataWeekly.getWeeklyPercentage);
 
   return (
     <div id="right-dashboard">
@@ -108,9 +108,9 @@ export default ({ data, loading, error, refetch, dataDaily, loadingDaily, errorD
             </div>
             <div id="body-total-customer">
               <div id="body-total-exp">
-                { dataWeekly.getWeeklyPercentage.percentage >= 0 ? 
+                {dataDaily.getDailyPercentage.percentage >= 0 ? 
                   <ArrowUp /> : 
-                  <ArrowDown />
+                  <ArrowDown color="rgb(255, 79, 79)" />
                 }
                 <h3>{dataDaily.getDailyPercentage.currentDay} people</h3>
                 <div className="flex-spacer"></div>
@@ -119,7 +119,11 @@ export default ({ data, loading, error, refetch, dataDaily, loadingDaily, errorD
                 </div>
               </div>
               <div id="progress-bar">
-                <div id="progress" style={{ width: dataDaily.getDailyPercentage.percentage+'%' }}></div>
+                {dataDaily.getDailyPercentage.percentage >= 0 ? 
+                  <div id="progress" style={{ width: Math.abs(dataDaily.getDailyPercentage.percentage)+'%' }}></div>
+                  : 
+                  <div id="progress-red" style={{ width: 100 - Math.abs(dataDaily.getDailyPercentage.percentage)+'%' }}></div>
+                }
               </div>
             </div>
           </div>
@@ -132,7 +136,7 @@ export default ({ data, loading, error, refetch, dataDaily, loadingDaily, errorD
               <div id="body-total-exp">
                 { dataWeekly.getWeeklyPercentage.percentage >= 0 ?
                   <ArrowUp /> :
-                  <ArrowDown />
+                  <ArrowDown color="rgb(255, 79, 79)" />
                 }
                 <h3>{dataWeekly.getWeeklyPercentage.currentWeek} people</h3>
                 <div className="flex-spacer"></div>
@@ -141,59 +145,59 @@ export default ({ data, loading, error, refetch, dataDaily, loadingDaily, errorD
                 </div>
               </div>
               <div id="progress-bar">
-                <div id="progress" style={{ width: dataWeekly.getWeeklyPercentage.percentage+'%' }}></div>
+                <div id="progress" style={{ width: Math.abs(dataWeekly.getWeeklyPercentage.percentage)+'%' }}></div>
               </div>
             </div>
           </div>
 
           <div id="customer-box-list">
-        <div id="header-recent-customer">
-          <div id="just-block"></div>
-          <span>Recent Customers</span>
-        </div>
-        <div id="body-customer-list">
-          {data.findCompanyById.queue.map(el => (
-            <div id="customer-list" key={el._id}>
-              <div id="customer-pic">
-                <img src={el.userId.image || 'assets/male.png'} alt="profile"/>
-              </div>
-              <div id="customer-desc">
-                <h5>{`${el.userId.firstName} ${el.userId.lastName}`}</h5>
-                <p>{el.problem.name}</p>
-              </div>
-              <div className="flex-spacer"></div>
-              <div id="queue-duration">
-                {editMode === el._id ?
-                  <input id="duration-input" onChange={handleEditDuration} type="text" value={newDuration} /> :
-                <>
-                  <div id="circle-duration"></div>
-                  <p>{el.duration} Minutes</p>
-                </>
-                }
-              </div>
-              <div id="customer-time">
-                <div id="circle"></div>
-                <p>{moment(el.checkIn).format('LT')}</p>
-              </div>
-              <div id="fix-spacer"></div>
-              <div id="button-action">
-                {editMode === el._id ? 
-                  <>
-                    <button id="btn-late" onClick={_ => handleEditDurationQueue()}>Done</button>
-                    <button id="btn-cancel-edit-duration" onClick={_ => setEditMode(false)}>Cancel</button>
-                  </> : 
-                  <>
-                    <button id="btn-late" onClick={_ => {
-                      setEditMode(el._id);
-                    }}>Edit</button>
-                    <button id="btn-done" onClick={_ => handleRemoveQueue(el._id)}>Done</button>
-                  </>
-                }
-              </div>
+            <div id="header-recent-customer">
+              <div id="just-block"></div>
+              <span>Recent Customers</span>
             </div>
-          ))}
-        </div>
-      </div>
+            <div id="body-customer-list">
+              {data.findCompanyById.queue.map(el => (
+                <div id="customer-list" key={el._id}>
+                  <div id="customer-pic">
+                    <img src={el.userId.image || 'assets/male.png'} alt="profile"/>
+                  </div>
+                  <div id="customer-desc">
+                    <h5>{`${el.userId.firstName} ${el.userId.lastName}`}</h5>
+                    <p>{el.problem.name}</p>
+                  </div>
+                  <div className="flex-spacer"></div>
+                  <div id="queue-duration">
+                    {editMode === el._id ?
+                      <input id="duration-input" onChange={handleEditDuration} type="text" value={newDuration} /> :
+                    <>
+                      <div id="circle-duration"></div>
+                      <p>{el.duration} Minutes</p>
+                    </>
+                    }
+                  </div>
+                  <div id="customer-time">
+                    <div id="circle"></div>
+                    <p>{moment(el.checkIn).format('LT')}</p>
+                  </div>
+                  <div id="fix-spacer"></div>
+                  <div id="button-action">
+                    {editMode === el._id ? 
+                      <>
+                        <button id="btn-late" onClick={_ => handleEditDurationQueue()}>Done</button>
+                        <button id="btn-cancel-edit-duration" onClick={_ => setEditMode(false)}>Cancel</button>
+                      </> : 
+                      <>
+                        <button id="btn-late" onClick={_ => {
+                          setEditMode(el._id);
+                        }}>Edit</button>
+                        <button id="btn-done" onClick={_ => handleRemoveQueue(el._id)}>Done</button>
+                      </>
+                    }
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </>
       }
     </div>
