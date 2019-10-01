@@ -1,0 +1,58 @@
+.bg-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(105, 105, 105, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#confirm-box {
+  height: 230px;
+  width: 400px;
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#confirm-text {
+  margin-top: 40px;
+}
+#confirm-text h3 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 400;
+  color: rgb(97, 97, 97);
+}
+.modal-btn-box {
+  margin-bottom: 40px;
+}
+.modal-btn-box button {
+  margin: 10px;
+  color: white;
+}
+.confirm-btn {
+  background-color: rgb(70, 95, 204);
+}
+.confirm-btn:hover {
+  background-color: rgb(63, 87, 194);
+}
+.confirm-btn:active {
+  background-color: rgb(49, 72, 170);
+}
+.cancel-btn {
+  background-color: rgb(253, 85, 85);
+}
+.cancel-btn:hover {
+  background-color: rgb(245, 75, 75);
+}
+.cancel-btn:active {
+  background-color: rgb(235, 63, 63);
+}
